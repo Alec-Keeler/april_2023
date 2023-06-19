@@ -61,3 +61,40 @@ app.get('/test', (req, res) => {
   res.send('Welcome to Express!');
 });
 ```
+
+### Different ways to declare paths
+  ```js
+  // 1. A string
+  app.get('/hello', cb);
+
+  // 2. A string of Regular Expression (a.k.a 'Regex')
+  // will match abcd, abxcd, abRANDOMcd, ab123cd, and so on
+  app.get('/ab*cd', cb);
+
+  // 3. An array of strings
+  app.get(['/stuff', '/other'], cb);
+  ```
+
+### Different methods to respond
+  ```js
+  // 1. Send JSON object, primariy method for our purpose
+  res.json({"JSON": "object"});
+
+  // 2. Send plain text, sometimes
+  res.send('string');
+
+  // 3. Redirect to different endpoint
+  res.redirect('/users'); // GET /users
+
+  // 4. Render a front-end template
+  res.render('profile');
+  ```
+
+### `res.status()` method
+  - Sets a specific status to the response
+
+```js
+res.status(417);
+
+res.status = 417; // Common mistake
+```
