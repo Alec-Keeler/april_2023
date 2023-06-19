@@ -62,33 +62,49 @@ app.get('/test', (req, res) => {
 });
 ```
 
+  9. Add boilerplate code
+```js
+const express = require('express');
+const app = express();
+
+
+app.use(express.json()) // <-- enables parsing of the request body
+
+app.post('/test', (req, res) => {
+  res.json(req.body); // This will return JSON object
+});
+
+app.listen(8000, () => console.log('Listening on port 8000'));
+
+```
+
 ### Different ways to declare paths
-  ```js
-  // 1. A string
-  app.get('/hello', cb);
+```js
+// 1. A string
+app.get('/hello', cb);
 
-  // 2. A string of Regular Expression (a.k.a 'Regex')
-  // will match abcd, abxcd, abRANDOMcd, ab123cd, and so on
-  app.get('/ab*cd', cb);
+// 2. A string of Regular Expression (a.k.a 'Regex')
+app.get('/ab*cd', cb);
+// will match abcd, abxcd, abRANDOMcd, ab123cd, and so on
 
-  // 3. An array of strings
-  app.get(['/stuff', '/other'], cb);
-  ```
+// 3. An array of strings
+app.get(['/stuff', '/other'], cb);
+```
 
 ### Different methods to respond
-  ```js
-  // 1. Send JSON object, primariy method for our purpose
-  res.json({"JSON": "object"});
+```js
+// 1. Send JSON object, primariy method for our purpose
+res.json({"JSON": "object"});
 
-  // 2. Send plain text, sometimes
-  res.send('string');
+// 2. Send plain text, sometimes
+res.send('string');
 
-  // 3. Redirect to different endpoint
-  res.redirect('/users'); // GET /users
+// 3. Redirect to different endpoint
+res.redirect('/users'); // GET /users
 
-  // 4. Render a front-end template
-  res.render('profile');
-  ```
+// 4. Render a front-end template
+res.render('profile');
+```
 
 ### `res.status()` method
   - Sets a specific status to the response
@@ -98,3 +114,10 @@ res.status(417);
 
 res.status = 417; // Common mistake
 ```
+
+## Middleware*
+  - Performs some processing in between routes
+  - Topic for tomorrow
+
+### Pro Tip:
+  1. express works from top to bottom. The order of our codes matter!
