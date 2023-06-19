@@ -10,9 +10,16 @@ app.post('/test', (req, res) => {
 });
 
 app.get(['/stuff', '/test'], (req, res) => {
+  // console.log(req);
   res.status(417);
   res.send('This is our second route.');
   // res.status = 417 // Incorrect
+});
+
+app.get('/things/:id', (req, res) => {
+  console.log('params', req.params);
+  console.log('query', req.query);
+  res.send(req.params.id); // <--
 });
 
 app.get('/test', (req, res) => {

@@ -119,5 +119,26 @@ res.status = 417; // Common mistake
   - Performs some processing in between routes
   - Topic for tomorrow
 
+## Getting information form the Request (`req`) object
+```js
+// 1. req.body
+  app.get('/things', (req, res) => {
+    res.json(req.body);
+  });
+
+// 2. req.params (/things/123)
+  app.get('/things/:id', (req, res) => {
+    res.json(req.params.id);
+  });
+
+// 3. req.query (things?fruit=mango)
+  app.get('/things/:id', (req, res) => {
+    // ** optional; notice that our path did not change from #2.
+    res.json(req.query.fruit);
+  });
+
+  // *** req.params and req.query will always give us string back
+```
+
 ### Pro Tip:
   1. express works from top to bottom. The order of our codes matter!
