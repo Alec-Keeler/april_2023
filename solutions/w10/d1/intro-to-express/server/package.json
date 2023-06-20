@@ -1,0 +1,19 @@
+{
+  "name": "intro-to-express",
+  "version": "1.0.0",
+  "description": "Initializes an Express application to listen for requests on a port. Returns a simple text response.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
