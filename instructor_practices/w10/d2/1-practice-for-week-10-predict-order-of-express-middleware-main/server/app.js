@@ -27,15 +27,19 @@ const fourth = (req, res, next) => {
   console.log('Fourth');
   const error = new Error('Fourth');
   throw error;
+  // next(error)
 };
 
 // Fifth
 const fifth = (err, req, res, next) => {
   console.log('Fifth');
+  // console.log(err.message)
   next();
 };
 
-app.use('/', [fourth, fifth]);
+// app.use('/', [fourth, fifth]);
+app.use('/', fourth)
+app.use('/', fifth)
 
 // Sixth
 app.get('/other-resource', (req, res, next) => {
