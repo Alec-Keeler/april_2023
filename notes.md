@@ -131,7 +131,7 @@ res.status = 417; // Common mistake
     res.json(req.params.id);
   });
 
-// 3. req.query (things?fruit=mango)
+// 3. req.query (things/123?fruit=mango)
   app.get('/things/:id', (req, res) => {
     // ** optional; notice that our path did not change from #2.
     res.json(req.query.fruit);
