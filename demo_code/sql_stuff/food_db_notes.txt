@@ -1,0 +1,38 @@
+RESTAURANT
+food menu (price, allergens?)
+	price, vegan, vegetarian, glutten free, name, service time(breakfast, brunch, lunch, tea time, supper, dinner), description, dish type (apps, entrees, etc)
+
+drinks menu
+	name, type (beer, wine, cocktail, spirit, soda), alcohol_content, price, glass type, size
+	
+ingredients
+	vendor, shelf life, quantity, price per unit, unit amount/size, name, storage, available
+		butter
+		potatoes
+
+reservations
+	number of guests, time, date, special requests, name, phone number, in/outdoor
+
+
+Table menu_items {
+  id INTEGER [pk]
+  name VARCHAR(100)
+  price DECIMAL(5,2)
+  vegan BOOLEAN
+  vegetarian BOOLEAN
+  gluten_free BOOLEAN
+  service_time VARCHAR(25)
+  description VARCHAR
+  dish_type VARCHAR(25)
+}
+
+Table drinks {
+  id INTEGER [pk]
+  name VARCHAR(100)
+  type VARCHAR(25)
+  alcohol_content DECIMAL(3,1)
+  price DECIMAL(5,2)
+  glass_type VARCHAR(50)
+  serving_size_oz DECIMAL(3,1)
+}
+

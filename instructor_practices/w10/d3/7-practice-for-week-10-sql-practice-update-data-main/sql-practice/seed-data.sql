@@ -15,3 +15,11 @@ VALUES
   ('River', 'Song');
 
 SELECT * FROM friends;
+
+-- Update 1
+UPDATE friends
+SET first_name = 'Ryder'
+WHERE first_name = 'Ryan' AND last_name = 'Pond';
+-- WHERE id = 1;
+
+SELECT * FROM friends;

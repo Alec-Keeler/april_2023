@@ -1,0 +1,24 @@
+DROP TABLE IF EXISTS food_items;
+DROP TABLE IF EXISTS drinks;
+
+CREATE TABLE food_items (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(100) NOT NULL UNIQUE,
+	price DECIMAL(5,2) NOT NULL,
+	vegan BOOLEAN NOT NULL DEFAULT false,
+	vegetarian BOOLEAN NOT NULL DEFAULT false,
+	gluten_free BOOLEAN NOT NULL DEFAULT false,
+	description VARCHAR(255),
+	service_time VARCHAR(25),
+	dish_type VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE drinks (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(100) NOT NULL UNIQUE,
+	type VARCHAR(25),
+	alcohol_content DECIMAL(3,1) NOT NULL,
+	price DECIMAL(5,2) NOT NULL,
+	glass_type VARCHAR(50) NOT NULL DEFAULT 'Collins',
+	serving_size_oz DECIMAL(3,1)
+);
