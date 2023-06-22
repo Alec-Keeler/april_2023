@@ -24,3 +24,46 @@ WHERE name = 'Oreos';
 -- UPDATE food_items
 -- SET price = price + 2
 -- WHERE gluten_free = 1;
+
+SELECT name, price FROM food_items
+WHERE name LIKE '%chicken%';
+
+-- SELECT name, alcohol_content FROM drinks
+-- WHERE alcohol_content >= 10 AND alcohol_content <= 30;
+
+-- SELECT name, alcohol_content FROM drinks
+-- WHERE alcohol_content BETWEEN 10 AND 30;
+
+SELECT * FROM ingredients
+WHERE storage IN ('cold', 'frozen');
+
+SELECT * FROM drinks
+ORDER BY alcohol_content DESC
+LIMIT 2;
+
+SELECT name, price FROM food_items
+ORDER BY price DESC
+LIMIT 1;
+
+SELECT name, price FROM food_items
+ORDER BY price DESC
+LIMIT 1
+OFFSET 1;
+
+
+SELECT drinks.name, drinks.id, food_items.drink_id, food_items.name FROM food_items
+JOIN drinks ON (drinks.id = food_items.drink_id)
+WHERE drinks.name = 'Apple Juice';
+
+SELECT food_items.name, food_items.id, food_item_ingredients.food_item_id, 
+	food_item_ingredients.ingredient_id, ingredients.id, ingredients.name 
+FROM food_item_ingredients
+JOIN food_items ON (food_item_ingredients.food_item_id = food_items.id)
+JOIN ingredients ON (ingredients.id = food_item_ingredients.ingredient_id)
+WHERE food_items.name = 'Oreos';
+
+SELECT drinks.name, food_items.name, ingredients.name FROM food_items
+JOIN drinks ON (drinks.id = food_items.drink_id)
+JOIN food_item_ingredients ON (food_items.id = food_item_ingredients.food_item_id)
+JOIN ingredients ON (food_item_ingredients.ingredient_id = ingredients.id)
+WHERE ingredients.name = 'Butter';

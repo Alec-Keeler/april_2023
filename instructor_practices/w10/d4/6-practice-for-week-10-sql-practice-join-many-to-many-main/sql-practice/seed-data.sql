@@ -45,10 +45,10 @@ VALUES (1, 'piano'),
   (8, 'saxophone');
 
 INSERT INTO musician_instruments (musician_id, instrument_id)
-VALUES (1, 1),
-  (1, 2),
-  (2, 1),
-  (2, 4),
+VALUES (1, 1),(1, 'Adam', 'Appleby'),(1, 'piano')
+  (1, 2),(1, 'Adam', 'Appleby'),(2, 'guitar'),
+  (2, 1),(2, 'Anton', 'Martinovic'),(1, 'piano')
+  (2, 4),(2, 'Anton', 'Martinovic'),(4, 'bass'),
   (3, 6),
   (4, 8),
   (5, 3),
