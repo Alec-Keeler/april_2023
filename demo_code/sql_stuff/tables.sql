@@ -19,6 +19,13 @@ CREATE TABLE drinks (
 	type VARCHAR(25),
 	alcohol_content DECIMAL(3,1) NOT NULL,
 	price DECIMAL(5,2) NOT NULL,
-	glass_type VARCHAR(50) NOT NULL DEFAULT 'Collins',
 	serving_size_oz DECIMAL(3,1)
+);
+
+CREATE TABLE ingredients (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(200) NOT NULL,
+	quantity INTEGER NOT NULL DEFAULT 1,
+	price_per_unit DECIMAL(5,2) NOT NULL,
+	storage VARCHAR(20) NOT NULL
 );
