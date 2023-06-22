@@ -1,0 +1,14 @@
+Table colors {
+  id INTEGER [pk]
+  name TEXT
+}
+
+Table music {
+  id INTEGER [pk]
+  name TEXT
+  type_of_work TEXT
+  instrumental BOOLEAN
+  composition_year INTEGER
+  composer TEXT
+  sample BLOB
+}
