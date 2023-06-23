@@ -67,3 +67,47 @@ JOIN drinks ON (drinks.id = food_items.drink_id)
 JOIN food_item_ingredients ON (food_items.id = food_item_ingredients.food_item_id)
 JOIN ingredients ON (food_item_ingredients.ingredient_id = ingredients.id)
 WHERE ingredients.name = 'Butter';
+
+SELECT AVG(price), drink_id FROM food_items
+GROUP BY drink_id
+HAVING drink_id IN (1, 2, 3);
+
+
+
+
+
+
+
+
+SELECT drinks.name, drinks.id, food_items.drink_id, food_items.name FROM food_items
+JOIN drinks ON (drinks.id = food_items.drink_id)
+WHERE drinks.name = 'Apple Juice';
+
+
+
+SELECT * FROM food_items
+WHERE drink_id IN (
+	SELECT id FROM drinks
+	WHERE drinks.alcohol_content = 0
+);
+
+-- ingredients.name = 'Butter'
+-- list of drink names
+
+SELECT * FROM drinks
+WHERE id IN (
+	SELECT drink_id FROM food_items
+	WHERE id IN (
+		SELECT food_item_id FROM food_item_ingredients
+		WHERE ingredient_id IN (
+			SELECT id FROM ingredients
+			WHERE ingredients.name = 'Butter'
+		) 
+	)
+);
+
+DELETE FROM food_items
+WHERE drink_id IN (
+	SELECT id FROM drinks
+	WHERE drinks.name = 'Apple Juice'
+);

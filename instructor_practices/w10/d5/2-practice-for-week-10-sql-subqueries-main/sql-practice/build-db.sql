@@ -60,3 +60,34 @@ VALUES
   (5, 'Crinkle Ball'),
   (7, 'Cheetos'),
   (8, 'Yarn');
+
+
+-- SELECT * FROM toys
+-- JOIN cats ON (cats.id = toys.cat_id)
+-- WHERE cats.name = 'Garfield';
+
+-- SELECT * FROM toys
+-- WHERE cat_id IN (
+--   SELECT id FROM cats
+--   WHERE name = 'Garfield'
+-- );
+
+INSERT INTO toys (name, cat_id)
+VALUES
+(
+    'Pepperoni',
+    (
+        SELECT id
+        FROM cats
+        WHERE name='Garfield'
+    )
+);
+
+-- INSERT INTO toys (name, cat_id)
+-- SELECT 'Pepperoni', cat_id FROM toys
+-- JOIN cats ON (toys.cat_id = cats.id)
+-- WHERE cats.name = 'Garfield';
+INSERT INTO toys (name, cat_id)
+SELECT "Pepperoni", id
+FROM cats
+WHERE name = 'Garfield';
