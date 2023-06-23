@@ -1,0 +1,29 @@
+html
+	nav
+		a(href="/foods") Menu Home Page
+		a(href='/foods/new') Add Item to Menu
+body
+	div
+		h1 Add an Item to the Menu
+		form(action="/foods" method="post") 
+			label Name
+			input(type="text" name='name') 
+			label Price
+			input(type="number" name='price') 
+			label Vegan?
+			input(type="number" name='vegan') 
+			label Vegetarian?
+			input(type="number" name='vegetarian') 
+			label Gluten Free?
+			input(type="number" name='gluten_free') 
+			label Description
+			input(type="text" name='description') 
+			label Service Time?
+			input(type="text" name='service_time') 
+			label Dish Type?
+			input(type="text" name='dish_type') 
+			label Drink Id?
+			select(name="drink_id") 
+				each drink in drinks
+					option(value=drink.id)= drink.name 
+			button Create

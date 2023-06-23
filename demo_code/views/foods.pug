@@ -1,0 +1,10 @@
+html
+	nav
+		a(href="/foods") Menu Home Page
+		a(href='/foods/new') Add Item to Menu
+body
+	div
+		each food in foods
+			h2=food.name
+			p=food.price
+			a(href=`/foods/${food.id}`) More Info
