@@ -1,0 +1,8 @@
+const path = require('path');
+
+module.exports = { // Tell sequelize where to find/store files
+	config: path.resolve('config', 'database.js'),
+	'models-path': path.resolve('db', 'models'),
+	'seeders-path': path.resolve('db', 'seeders'),
+	'migrations-path': path.resolve('db', 'migrations')
+};
