@@ -11,7 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      FoodItem.belongsTo(models.Drink, {
+        foreignKey: 'drinkId'
+      })
+      // SELECT * FROM FoodItems
+      // JOIN Drinks ON (FoodItems.drinkId = Drinks.id)
+      // hasMany, belongsTo, belongsToMany
+
+      FoodItem.belongsToMany(models.Ingredient, {
+        through: models.FoodItemIngredient,
+        foreignKey: 'foodItemId',
+        otherKey: 'ingredientId'
+      })
+      // SELECT * FROM FoodItems
+      // JOIN FoodItemIngredients ON (FoodItems.id = FoodItemIngredients.foodItemId)
+      // JOIN Ingredients ON (FoodItemIngredients.ingredientId = Ingredients.id)
     }
+
+
   }
   FoodItem.init({
     name: {
@@ -49,6 +66,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     dishType: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    drinkId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {

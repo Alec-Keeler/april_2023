@@ -19,8 +19,8 @@ describe('Step 1: Build and Save', () => {
     it('should implement the build and save methods on the Puppy model to insert Trudy', async () => {
         expect(buildSpy).to.have.been.called();
         expect(createSpy).to.not.have.been.called();
-        const trudy = await models.Puppy.findOne({ where: { name: 'Trudy' } });
-        expect(trudy.name).to.eq('Trudy');
+        const trudy = await models.Puppy.findOne({ where: { name: 'Bill' } });
+        expect(trudy.name).to.eq('Bill');
         expect(trudy.ageYrs).to.eq(2);
         expect(trudy.breed).to.eq("Brittany Spaniel");
         expect(trudy.weightLbs).to.eq(38);

@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 // generic error handler
 app.use((err, req, res, next) => {
-	console.log(err)
+	console.log('error!', err)
 	const statusCode = err.statusCode || 500
 	res.status(statusCode)
 	res.json({

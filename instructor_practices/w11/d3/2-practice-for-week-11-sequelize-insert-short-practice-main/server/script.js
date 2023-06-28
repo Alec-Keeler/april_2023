@@ -4,12 +4,22 @@ const build = async () => {
     /* ====================== STEP 1 ====================== */
     // Using `build` and `save`, insert a record into the Puppies table with the
     // following attributes:
-    // name: Trudy
+    // name: Bill
     // ageYrs: 2
     // weightLbs: 38
     // breed: Brittany Spaniel
     // microchipped: false
     // Your code here
+    const pup = Puppy.build({
+      name: 'Bill',
+      ageYrs: 2,
+      weightLbs: 38,
+      breed: 'Brittany Spaniel',
+      microchipped: false
+    })
+
+    pup.validate()
+    await pup.save()
 
 
   } catch (err) {
@@ -30,6 +40,14 @@ const create = async () => {
     // breed: Bulldog
     // microchipped: true
     // Your code here
+
+    const pup = await Puppy.create({
+      name: 'Beans',
+      ageYrs: 1.6,
+      weightLbs: 42,
+      breed: 'Bulldog',
+      microchipped: true,
+    })
 
 
   } catch (err) {

@@ -9,20 +9,13 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.addColumn('FoodItems', 'drinkId', { // drinkId INTEGER NOT NULL REFERENCES drinks(id)
+    await queryInterface.addColumn('Musicians', 'bandId', {
       type: Sequelize.INTEGER,
-      allowNull: false,
       references: {
-        model: 'Drinks',
+        model: 'Bands',
         onDelete: 'CASCADE'
       }
-    })
-
-    // await queryInterface.addConstraint('FoodItems', {
-    //   fields: ['serviceTime'],
-    //   type: 'unique',
-    //   name: 'idx_unique_fooditems_servicetime'
-    // })
+    }) // drinkId INTEGER REFERENCES bands(id) ON DELETE CASCADE
   },
 
   async down (queryInterface, Sequelize) {
@@ -32,7 +25,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn('FoodItems', 'drinkId')
-    // await queryInterface.removeConstraint('FoodItems', 'idx_unique_fooditems_servicetime')
+    await queryInterface.removeColumn('Musicians', 'bandId')
   }
 };
