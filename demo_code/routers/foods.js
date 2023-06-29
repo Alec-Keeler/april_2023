@@ -44,20 +44,44 @@ router.get('/:id(\\d+)', async(req, res) => {
 	res.json(foodItem)
 })
 
-router.post('/create', async(req, res) => {
+const foodItemChecker = (req, res, next) => {
 	const { name, price, vegetarian, vegan, glutenFree, description, serviceTime, dishType } = req.body
-	const newItem = await FoodItem.create({
-		name: name,
-		price, //price: price
-		vegetarian,
-		vegan,
-		glutenFree,
-		description,
-		serviceTime,
-		dishType
-	})
+	const errors = []
+	if (name.length < 5 || name.length > 100) {
+		errors.push('Name must be between 5 and 100 characters')
+	}
+	if (price < 5) {
+		errors.push('Price must be at least 5')
+	}
+	const dishTypes = ['entree', 'appetizer', 'exotic', 'main', 'dessert', 'soup', 'salad', 'side', 'kids']
+	if (!dishTypes.includes(dishType)) {
+		errors.push('Dish type must be one of: entree, appetizer, exotic, main, dessert, soup, salad, side, kids')
+	}
 
-	res.json(newItem)
+	if (errors.length > 0) {
+		const err = new Error('Errors occurred with creating a new food item')
+		err.statusCode = 403
+		err.errors = errors
+		return next(err)
+	}
+	next()
+}
+
+router.post('/create', foodItemChecker, async(req, res) => {
+	const { name, price, vegetarian, vegan, glutenFree, description, serviceTime, dishType } = req.body
+	// const newItem = await FoodItem.create({
+	// 	name: name,
+	// 	price, //price: price
+	// 	vegetarian,
+	// 	vegan,
+	// 	glutenFree,
+	// 	description,
+	// 	serviceTime,
+	// 	dishType
+	// })
+
+	// res.json(newItem)
+	res.json('success')
 })
 
 router.post('/build', async(req, res, next) => {
@@ -81,10 +105,16 @@ router.post('/build', async(req, res, next) => {
 	res.json(newItem)
 })
 
-router.put('/:id', async(req, res) => {
+router.put('/:id', async(req, res, next) => {
 	const foodItem = await FoodItem.findByPk(req.params.id)
 	const { name, price, vegetarian, vegan, glutenFree, description, serviceTime, dishType } = req.body
-	console.log(foodItem)
+	// console.log(foodItem)
+
+	if (!foodItem) {
+		const err = new Error(`We do not have a food item with an id of ${req.params.id}`)
+		err.statusCode = 404
+		return next(err)
+	}
 
 	if (name) {
 		foodItem.name = name
@@ -103,45 +133,49 @@ router.put('/:id', async(req, res) => {
 	})
 })
 
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', async(req, res, next) => {
 	const foodItem = await FoodItem.findByPk(req.params.id)
 
 	if (foodItem) {
 		await foodItem.destroy()
 	} else {
-		return res.json({message: `We do not have a food item with an id of ${req.params.id}`})
+		// return res.json({message: `We do not have a food item with an id of ${req.params.id}`})
+		const err = new Error(`We do not have a food item with an id of ${req.params.id}`)
+		err.statusCode = 404
+		return next(err)
 	}
 
 	res.json({message: `Successfully deleted a food item with an id of ${req.params.id}`})
 })
 
 router.get('/joins', async(req, res) => {
-	// const foodItem = await FoodItem.findByPk(2, {
-	// 	// include: Drink
-	// 	// include: [Drink, Ingredient]
-	// 	include: {
-	// 		model: Drink, 
-	// 		attributes: ['name', 'price']
-	// 		// where //WHERE Drinks.name = ?
-	// 	},
-	// 	attributes: ['name', 'price']
-	// 	// where: // WHERE FoodItems.name = ?
-	// })
-
-	const drink = await Drink.findOne({
-		where: {id: 2},
+	const foodItem = await FoodItem.findByPk(2, {
+		// include: Drink
+		// include: [Drink, Ingredient]
 		include: {
-			model: FoodItem,
-			include: {
-				model: Ingredient,
-				through: {
-					attributes: []
-				}
-			}
-		}
+			model: Drink, 
+			attributes: ['name', 'price'],
+			as: 'DrinkRecommandations'
+			// where //WHERE Drinks.name = ?
+		},
+		attributes: ['name', 'price']
+		// where: // WHERE FoodItems.name = ?
 	})
 
-	res.json(drink)
+	// const drink = await Drink.findOne({
+	// 	where: {id: 2},
+	// 	include: {
+	// 		model: FoodItem,
+	// 		include: {
+	// 			model: Ingredient,
+	// 			through: {
+	// 				attributes: []
+	// 			}
+	// 		}
+	// 	}
+	// })
+
+	res.json(foodItem)
 })
 
 router.get('/getters', async(req, res) => {
@@ -177,5 +211,50 @@ router.post('/add', async(req, res) => {
 
 	res.json(newFood)
 })
+
+router.get('/agg', async(req, res) => {
+	const maxPrice = await FoodItem.max('price')
+	const minPrice = await FoodItem.min('price')
+	const totalItems = await FoodItem.count({
+		// where: {
+		// 	name: {
+		// 		[Op.substring]: 'Chicken'
+		// 	}
+		// }
+	})
+	const sumPrice = await FoodItem.sum('price')
+	const avgPrice = sumPrice/totalItems
+
+	// const highestPricedFoodItem = await FoodItem.findOne({
+	// 	where: {
+	// 		price: maxPrice
+	// 	}
+	// })
+
+	const highestPricedFoodItem = await FoodItem.findOne({
+		order: [['price', 'DESC']]
+	})
+
+	console.log(highestPricedFoodItem)
+	console.log(highestPricedFoodItem.toJSON())
+	const item = highestPricedFoodItem.toJSON()
+
+	item.minPrice = minPrice
+	item.maxPrice = maxPrice
+	item.totalItems = totalItems
+	item.sumPrice = sumPrice
+	item.avgPrice = avgPrice
+
+	res.json(item)
+	// res.json({
+	// 	minimumPrice: minPrice,
+	// 	maximumPrice: maxPrice,
+	// 	totalNumFoodItems: totalItems,
+	// 	sumPrice,
+	// 	avgPrice,
+	// 	highestPricedFoodItem
+	// })
+})
+
 
 module.exports = router;

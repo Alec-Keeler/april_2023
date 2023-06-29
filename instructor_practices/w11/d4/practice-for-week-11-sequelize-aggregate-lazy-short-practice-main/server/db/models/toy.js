@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
           otherKey: 'catId'
         }
       );
-      Toy.hasMany(
-        models.CatToy
+      Toy.hasMany(// JOIN CatToys ON Toys.id = CatToys.toyId
+        models.CatToy,
+        {foreignKey: 'toyId'}
       )
     }
   };

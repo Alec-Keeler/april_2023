@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       Drink.hasMany(models.FoodItem, {
         foreignKey: 'drinkId', // DrinkId
         onDelete: 'CASCADE',
-        hooks: true
+        hooks: true,
+        as: 'Pairings'
       })
     }
 

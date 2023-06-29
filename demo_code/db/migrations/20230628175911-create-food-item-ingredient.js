@@ -17,7 +17,7 @@ module.exports = {
           onDelete: 'CASCADE'
         }
       },
-      ingredientId: {
+      ingredientId: { // ingredientId INTEGER REFERENCES ingredients(id)
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

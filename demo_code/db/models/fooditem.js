@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       FoodItem.belongsTo(models.Drink, {
-        foreignKey: 'drinkId'
+        foreignKey: 'drinkId',
+        as: 'DrinkRecommandations'
       })
       // SELECT * FROM FoodItems
       // JOIN Drinks ON (FoodItems.drinkId = Drinks.id)
@@ -26,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       // SELECT * FROM FoodItems
       // JOIN FoodItemIngredients ON (FoodItems.id = FoodItemIngredients.foodItemId)
       // JOIN Ingredients ON (FoodItemIngredients.ingredientId = Ingredients.id)
+
+      FoodItem.hasMany(models.FoodItemIngredient, {
+        foreignKey: 'foodItemId',
+        onDelete: 'CASCADE',
+        hooks: true
+      }) // JOIN FoodItemIngredients ON (FoodItems.id = FoodItemIngredients.foodItemId)
     }
 
 
@@ -44,7 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: 5
+      }
     },
     vegan: {
       type: DataTypes.BOOLEAN,
@@ -59,14 +69,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true
     },
     serviceTime: {
       type: DataTypes.STRING
     },
     dishType: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isIn: [['entree', 'appetizer', 'exotic', 'main', 'dessert', 'soup', 'salad', 'side', 'kids']]
+      }
     },
     drinkId: {
       type: DataTypes.INTEGER,

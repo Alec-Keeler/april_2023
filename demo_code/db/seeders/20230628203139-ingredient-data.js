@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   const { Ingredient } = require('./db/models')
+   const { Ingredient } = require('../models')
     await Ingredient.bulkCreate([
       { name: 'Oreos', quantity: 10, pricePerUnit: 4.39, storage: 'dry' },
       { name: 'Butter', quantity: 50, pricePerUnit: 3.50, storage: 'cold' },

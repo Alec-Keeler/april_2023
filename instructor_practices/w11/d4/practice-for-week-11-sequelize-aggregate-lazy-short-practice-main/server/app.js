@@ -26,25 +26,25 @@ app.get('/toys-summary', async (req, res, next) => {
         Set it to a variable called `count`.
     */
     // Your code here
-
+    const count = await Toy.count()
     /*
         STEP 1B: Calculate the minimum price of all the toy records.
         Set it to a variable called `minPrice`.
     */
     // Your code here
-
+    const minPrice = await Toy.min('price')
     /*
         STEP 1C: Calculate the maximum price of all the toy records.
         Set it to a variable called `maxPrice`.
     */
     // Your code here
-
+    const maxPrice = await Toy.max('price')
     /*
         STEP 1D: Calculate the sum of the prices of all the toy records.
         Set it to a variable called `sumPrice`.
     */
     // Your code here
-
+    const sumPrice = await Toy.sum('price')
     res.json({
         count,
         minPrice,
@@ -64,27 +64,41 @@ app.get('/cats/:catId', async (req, res, next) => {
     /* 
         STEP 2A: Find a cat with their associated toys
     */
-    const cat = {};
-
+    const cat = await Cat.findByPk(req.params.catId, {
+        include: Toy
+    });
+    // console.log(cat)
     const toys = cat.Toys;
 
     /* 
         STEP 2B: Calculate the total amount of toys that the cat is
         associated with.
     */
-    const toyCount;
+    const toyCount = toys.length
 
     /*
         STEP 2C: Calculate the total price of all the toys that the cat is
         associated with
     */
-    const toyTotalPrice;
-
+    const toyTotalPrice = await Toy.sum('price', {
+        include: {
+            model: CatToy,
+            where: {
+                catId
+            }
+        }
+    })
+    // const toyTotalPrice = await CatToy.sum('price')
+    // let toyTotalPrice = 0;
+    // for (let i = 0; i < toys.length; i++) {
+    //     const toy = toys[i];
+    //     toyTotalPrice += toy.price
+    // }
     /*
         STEP 2D: Calculate the average price of all the toys that the cat is
         associated with
     */
-    const toyAvgPrice;
+    const toyAvgPrice = toyTotalPrice / toyCount;
 
     res.json({
         toyCount,

@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       Cat.hasMany(
         models.CatToy,
+        {foreignKey: 'catId'}
       );
     }
   };

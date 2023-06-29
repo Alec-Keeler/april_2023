@@ -34,7 +34,8 @@ module.exports = {
         allowNull: false
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       serviceTime: {
         type: Sequelize.STRING(25)

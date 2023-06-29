@@ -24,7 +24,8 @@ app.use((err, req, res, next) => {
 	res.json({
 		message: err.message || 'Something went wrong',
 		statusCode: statusCode,
-		stack: err.stack
+		stack: err.stack,
+		errorList: err.errors || ['See message']
 	})
 })
 
