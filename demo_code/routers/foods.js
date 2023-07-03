@@ -260,11 +260,49 @@ router.get('/search', async(req, res) => {
 	// pagination conditions:
 		// set default values incase values are not provided
 		// if page or size are less than 1, do not include pagination in query
+	let {page, size, vegan, maxPrice, drink} = req.query
 
+	let queryObj = {
+		order: [['name', 'ASC']],
+		where: {},
+		include: []
+		// include: Drink
+	}
 
+	if (!page) page = 1
+	if (!size) size = 5
 
+	// let pagination = {}
 
-	const foodItems = await FoodItem.findAll()
+	if (size >= 1 && page >= 1) {
+		// pagination.limit = size
+		// pagination.offset = (page - 1) * size
+		queryObj.limit = size
+		queryObj.offset = (page - 1) * size
+	}
+
+	if (vegan !== undefined) {
+		if (vegan === 'true') queryObj.where.vegan = true
+		if (vegan === 'false') queryObj.where.vegan = false
+	}
+
+	if (maxPrice) {
+		queryObj.where.price = {
+			[Op.lte]: maxPrice
+		}
+	}
+
+	if (drink) {
+		queryObj.include.push({
+			model: Drink,
+			where: {
+				name: drink
+			},
+			as: 'DrinkRecommandations'
+		})
+	}
+	
+	const foodItems = await FoodItem.findAll(queryObj)
 
 	res.json({
 		searchResult: foodItems

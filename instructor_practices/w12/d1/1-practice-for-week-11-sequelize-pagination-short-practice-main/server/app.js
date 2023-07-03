@@ -12,12 +12,51 @@ const { Musician, Band, Instrument } = require('./db/models');
 // Express using json - DO NOT MODIFY
 app.use(express.json());
 
+const getPagination = (queryParams) => {
+    let { page, size } = queryParams
 
-app.get('/musicians', async (req, res, next) => {
+    if (!size) size = 5
+    if (!page) page = 1
+
+    let pagination = {}
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size
+        pagination.offset = size * (page - 1)
+    }
+    return pagination
+}
+
+const paginationMiddleware = (req, res, next) => {
+    let { page, size } = req.query
+
+    if (!size) size = 5
+    if (!page) page = 1
+
+    let pagination = {}
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size
+        pagination.offset = size * (page - 1)
+    }
+    req.pagination = pagination
+    next()
+}
+
+app.get('/musicians', paginationMiddleware, async (req, res, next) => {
     // Parse the query params, set default values, and create appropriate
     // offset and limit values if necessary.
     // Your code here
-    
+
+    // let { page, size } = req.query
+
+    // if (!size) size = 5
+    // if (!page) page = 1
+
+    // let pagination = {}
+    // if (page >= 1 && size >= 1) {
+    //     pagination.limit = size
+    //     pagination.offset = size * (page - 1)
+    // }
+
     // Query for all musicians
     // Include attributes for `id`, `firstName`, and `lastName`
     // Include associated bands and their `id` and `name`
@@ -32,6 +71,8 @@ app.get('/musicians', async (req, res, next) => {
         // add limit key-value to query
         // add offset key-value to query
         // Your code here
+        // ...req.pagination
+        ...getPagination(req.query)
     });
 
     res.json(musicians)
@@ -39,7 +80,7 @@ app.get('/musicians', async (req, res, next) => {
 
 
 // BONUS: Pagination with bands
-app.get('/bands', async (req, res, next) => {
+app.get('/bands', paginationMiddleware, async (req, res, next) => {
     // Parse the query params, set default values, and create appropriate
     // offset and limit values if necessary.
     // Your code here
@@ -58,6 +99,7 @@ app.get('/bands', async (req, res, next) => {
         // add limit key-value to query
         // add offset key-value to query
         // Your code here
+        ...req.pagination
     });
 
     res.json(bands)
@@ -92,6 +134,7 @@ app.get('/instruments', async (req, res, next) => {
         // add limit key-value to query
         // add offset key-value to query
         // Your code here
+        ...req.pagination
     });
 
     res.json(instruments)
