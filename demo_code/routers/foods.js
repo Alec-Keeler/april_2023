@@ -256,5 +256,19 @@ router.get('/agg', async(req, res) => {
 	// })
 })
 
+router.get('/search', async(req, res) => {
+	// pagination conditions:
+		// set default values incase values are not provided
+		// if page or size are less than 1, do not include pagination in query
+
+
+
+
+	const foodItems = await FoodItem.findAll()
+
+	res.json({
+		searchResult: foodItems
+	})
+})
 
 module.exports = router;
