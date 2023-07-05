@@ -16,6 +16,9 @@ const tweets = [
   },
   {
     body: `<svg width="24" height="24"><path fill="white" d="M11 2.206l-6.235 7.528-.765-.645 7.521-9 7.479 9-.764.646-6.236-7.53v21.884h-1v-21.883z"/></svg>Opening the malicious link steals users credentials and redirects you to the malicious website.`
+  },
+  {
+    body: `<form method="post" action="/"><label>Enter Your Email to WIN!: <input type="text"></label><input type="hidden" name="action" value="delete"></label><button>Submit</button></form>`
   }
 ];
 

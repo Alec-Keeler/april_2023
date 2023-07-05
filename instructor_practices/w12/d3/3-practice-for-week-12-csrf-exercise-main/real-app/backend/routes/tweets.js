@@ -10,7 +10,7 @@ tweetsRouter.get('/', async (req, res) => {
       model: User
     }
   });
-  return res.json(tweets);
+  return res.json({data: tweets});
 });
 
 tweetsRouter.post('/', requireAuth, async (req, res) => {

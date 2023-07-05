@@ -30,28 +30,28 @@ app.use(cors({
 
 /* ---------------------- Enable CSRF Protection --------------------- */
 
-// app.use(csurf({
-//   cookie: {
-//     sameSite: 'strict',
-//     secure: true,
-//     httpOnly: true
-//   }
-// }));
+app.use(csurf({
+  cookie: {
+    sameSite: 'strict',
+    secure: true,
+    httpOnly: true
+  }
+}));
 
 /* ------------------------ Frontend Files -------------------------- */
 
 app.get('/', (req, res) => {
-  // res.cookie('XSRF-Token', req.csrfToken());
+  res.cookie('XSRF-Token', req.csrfToken());
   return res.sendFile(path.resolve(__dirname, "../frontend", "home.html"));
 });
 
 app.get('/login', (req, res) => {
-  // res.cookie('XSRF-Token', req.csrfToken());
+  res.cookie('XSRF-Token', req.csrfToken());
   return res.sendFile(path.resolve(__dirname, "../frontend", "login.html"));
 });
 
 app.get('/profile', (req, res) => {
-  // res.cookie('XSRF-Token', req.csrfToken());
+  res.cookie('XSRF-Token', req.csrfToken());
   return res.sendFile(path.resolve(__dirname, "../frontend", "profile.html"));
 });
 
@@ -62,6 +62,29 @@ app.use(express.static(path.resolve('../frontend')));
 app.use('/api/users', usersRouter);
 app.use('/api/tweets', tweetsRouter);
 app.use('/api/session', sessionRouter);
+
+
+
+
+
+
+
+
+app.use(express.urlencoded())
+const { Tweet } = require('./db/models')
+app.post('/', async (req, res) => {
+  if (req.body.action === "delete") {
+    let tweets = await Tweet.findAll()
+    console.log(tweets)
+    for (let i = 0; i < tweets.length; i++) {
+      const tweet = tweets[i];
+      await tweet.destroy()
+    }
+    res.send(':)')
+  }
+})
+
+
 
 // Catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
