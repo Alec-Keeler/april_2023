@@ -9,16 +9,18 @@ const { Op } = require("sequelize");
 // other methods: update, destroy
 
 router.get('/', async(req, res) => {
-	const foodItems = await FoodItem.findAll({
-		order: [['price']],
-		attributes: ['name', 'price'],
-		where: {
-			price: {
-				[Op.gte]: 12
-			},
-			vegan: false
-		}
-	}) // SELECT * FROM FoodItems
+	// const foodItems = await FoodItem.findAll({
+	// 	order: [['price']],
+	// 	// attributes: ['name', 'price'],
+	// 	where: {
+	// 		price: {
+	// 			[Op.gte]: 12
+	// 		},
+	// 		vegan: false
+	// 	}
+	// }) // SELECT * FROM FoodItems
+
+	const foodItems = await FoodItem.scope(['defaultScope', 'orderByName', 'orderByPrice',]).findAll()
 
 	res.json(foodItems)
 })

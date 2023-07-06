@@ -89,6 +89,36 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FoodItem',
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    },
+    scopes: {
+      isVegetarian: {
+        where: {
+          vegetarian: true
+        }
+      },
+      orderByPrice: {
+        order: [['price']]
+      },
+      orderByName: {
+        order: [['name']]
+      },
+      fetchDrink(name) {
+        const { Drink } = require('../models')
+        return {
+          include: {
+            model: Drink,
+            as: 'DrinkRecommandations',
+            where: {
+              name: name
+            }
+          }
+        }
+      }
+    }
   });
   return FoodItem;
 };
