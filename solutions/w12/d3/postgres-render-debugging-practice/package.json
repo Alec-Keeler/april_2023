@@ -1,0 +1,19 @@
+{
+  "name": "postgres-render-debugging-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/app.js",
+  "scripts": {
+    "build": "npm run --prefix server build",
+    "install": "npm install --prefix server",
+    "reset-files": "npm run reset-files --prefix server",
+    "sequelize": "npm run --prefix server sequelize",
+    "sequelize-cli": "npm run --prefix server sequelize-cli",
+    "start": "npm start --prefix server",
+    "test": "npm test --prefix server",
+    "test-with-json": "npm run test-with-json --prefix server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
